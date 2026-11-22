@@ -1,132 +1,133 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS + Prisma CRUD API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A REST API for managing employees, built with [NestJS](https://nestjs.com/), [Prisma](https://www.prisma.io/) and PostgreSQL ([Neon](https://neon.tech/)).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+> **Learning project.** I built this by following the NestJS course by Dave Gray ([video](https://www.youtube.com/watch?v=8_X0nSrzrCw) · [course repo](https://github.com/gitdagray/nestjs-course)), committing step by step and tagging each milestone with [Semantic Versioning](https://semver.org/).
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Full CRUD for employees, persisted in PostgreSQL through Prisma
+- Filter employees by role (`INTERN`, `ENGINEER`, `ADMIN`)
+- Rate limiting with `@nestjs/throttler` (per-route limits)
+- Custom logger that writes to the console and to a log file
+- Global exception filter that returns a consistent JSON error format
+- Database migrations managed by Prisma Migrate
 
-## Project setup
+## Tech stack
 
-```bash
-$ npm install
-```
+| Area | Tools |
+| --- | --- |
+| Framework | NestJS 12, TypeScript |
+| Database | PostgreSQL (Neon), Prisma 6 |
+| Validation | class-validator, class-transformer |
+| Testing | Vitest, Supertest |
+| Tooling | Prettier, oxlint |
 
-## Compile and run the project
+## Getting started
 
-```bash
-# development
-$ npm run start
+### Prerequisites
 
-# watch mode
-$ npm run start:dev
+- A recent LTS version of [Node.js](https://nodejs.org/) and npm
+- A PostgreSQL database (a free [Neon](https://neon.tech/) project works)
 
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+### Installation
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone https://github.com/pauloumrodriguez/nestjs-prisma-crud.git
+cd nestjs-prisma-crud
+npm install
 ```
 
-## Deployment
+### Environment variables
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Copy the example file and fill in your own values:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cp .env.example .env
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+| Variable | Description |
+| --- | --- |
+| `DATABASE_URL` | Pooled connection string, used by the application |
+| `DATABASE_URL_UNPOOLED` | Direct connection string, used by Prisma Migrate |
+| `PORT` | Optional. Defaults to `3000` |
 
-## Observability
+> Never commit your `.env` file. It is already listed in `.gitignore`.
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
-
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
-
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
-
-To add it to this project, run this and approve the code it prints at [observe.nestjs.com/link](https://observe.nestjs.com/link) - signing up for free if you have no account:
+### Database setup
 
 ```bash
-$ npx @nestjs/observe link
+npx prisma migrate dev
 ```
 
-It installs `@nestjs/observe`, wires it into `AppModule` and `main.ts`, and writes the app key and secret into `.env`, which every `nest start` script (`start`, `start:dev`, `start:debug`) then loads. In production, set `OBSERVE_APP_KEY` and `OBSERVE_APP_SECRET` in the environment instead.
-
-Or do it by hand:
+### Run the app
 
 ```bash
-$ npm install @nestjs/observe
+# development (watch mode)
+npm run start:dev
+
+# production
+npm run build
+npm run start:prod
 ```
 
-Then follow the [setup guide](https://docs.nestjs.com/observability/sdk) - it takes a single import and an app key.
+The API is available at `http://localhost:3000/api`.
 
-The free plan needs no payment details and covers 300,000 events a month. You can also browse the [live demo](https://www.observe-demo.nestjs.com/dashboard) first - the whole dashboard over a busy service's data, with nothing to install.
+## API endpoints
 
-## Resources
+All routes are prefixed with `/api`.
 
-Check out a few resources that may come in handy when working with NestJS:
+| Method | Route | Description |
+| --- | --- | --- |
+| `POST` | `/api/employees` | Create an employee |
+| `GET` | `/api/employees` | List employees (optional `?role=ADMIN`) |
+| `GET` | `/api/employees/:id` | Get one employee |
+| `PATCH` | `/api/employees/:id` | Update an employee |
+| `DELETE` | `/api/employees/:id` | Delete an employee |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observe](https://observe.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+**Example request**
 
-## Support
+```bash
+curl -X POST http://localhost:3000/api/employees \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Doe", "email": "jane@example.com", "role": "ENGINEER"}'
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+**Error format**
 
-## Stay in touch
+```json
+{
+  "statusCode": 422,
+  "timeStamp": "2026-11-22T20:59:00.039Z",
+  "path": "/api/employees?role=INVALID",
+  "response": "..."
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run start:dev` | Start in watch mode |
+| `npm run build` | Compile the project |
+| `npm run start:prod` | Run the compiled app |
+| `npm test` | Run unit tests |
+| `npm run test:e2e` | Run end-to-end tests |
+| `npm run lint` | Lint the code |
+| `npm run format` | Format the code with Prettier |
+
+## Versioning
+
+This project follows [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/). See the [tags](https://github.com/pauloumrodriguez/nestjs-prisma-crud/tags) for the history of each milestone.
+
+## Author
+
+**Paulo Rodrigues** — [GitHub](https://github.com/pauloumrodriguez)
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Acknowledgements
+
+Thanks to [Dave Gray](https://github.com/gitdagray) for the course this project is based on.
